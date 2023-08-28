@@ -104,3 +104,39 @@
 
 > seletor는 기본적으로 값을 자체적으로 캐싱한다.  
 > 만약 입력된 적 있는 값이라면 그 값을 기억하고, 이 값이 다시 호출 되면 이전에 캐싱된 결과를 바로 보여주기 때문에 비동기 데이터를 다루는 측면에서 유리하다.
+
+<h3>어떤 앱을 만들 때 user정보가 들어있는 데이터는 사용되는 곳이 많을 수 밖에 없기 때문에 전역상태로 관리하는것이 좋다.
+유저 데이터를 데이터베이스에서 가져올 때 Selector를 이용해서 전역 상태에 넣어보기로 하자
+</h3>
+
+> 현재 데이터베이스가 구축되어있지 않기 떄문에 jsonplaceholder임의로 사용  
+> https://jsonplaceholder.typicode.com/users
+
+1. axios 설치
+2. user Atom 생성
+
+```
+import { atom } from "recoil";
+export const currentUserIdState = atom({
+  key: "currentUserIdState",
+  default: 1,
+});
+
+```
+
+3. 데이터 가져오는 selector 구성해서 비동기 요청 보내기
+   ![AsyncSelectort](./ReadmeImageTodo/AsyncSelectort.png)
+
+4. 받아온 데이터 UI 사용하기
+   ![AsyncUI](./ReadmeImageTodo/AsyncUI.png)
+
+5. React.Suspense 와 함께 사용
+   > React 렌더 함수가 동기이기 때문에 Promise가 resolve 되기 전에 무엇을 렌더할 수 있을까?  
+   > Recoil은 보류 중인 데이터를 다루기 위해 React.Suspense와 함께 동작하도록 구성이 되어있다  
+   > Suspense의 경계로 감싸는 것으로 아직 보류 중인 하위 컴포넌트 항목들을 잡아내고 대체하기 위한 UI를 렌더한다.
+   > ![Suspense](./ReadmeImageTodo/Suspense.gif) > ![Suspense2](./ReadmeImageTodo/Suspense.png)
+
+## React.Suspense란?
+
+> React 애플리케이션에서 데이터를 로딩하거나 코드 분할(Code Splitting)을 처리하는 데 사용되는 기능이며 비동기적으로 데이터나 리소스를 가져오는 동안 애플리케이션의 렌더링을 일시 중단하거나 지연시킨다.  
+> <React.Suspense> 컴포넌트는 fallback 속성을 통해 로딩 중에 렌더링될 대체 컴포넌트나 텍스트를 정의 이러한 대체 컴포넌트는 비동기 작업이 완료되기 전까지 표시되며 Suspense는 비동기 작업이 완료되면 그에 따라 렌더링을 업데이트하고, 필요한 데이터 또는 리소스가 준비되면 로딩 상태에서 벗어난다.
