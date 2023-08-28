@@ -1,0 +1,23 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.App {
+  text-align: center;
+}
+.filter {
+  margin-bottom: 1.5rem;
+}
+.filter select {
+  padding: 0.25rem;
+  margin-left: 0.5rem;
+}
+
+.stats {
+  list-style: none;
+}
+
+.stats li {
+  padding: 0.25rem 0;
+}
